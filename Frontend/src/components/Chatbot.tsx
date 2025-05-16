@@ -17,6 +17,20 @@ const Chatbot: React.FC = () => {
     }
   }, [messages]);
 
+  // Function to format text (e.g., list handling, headings, etc.)
+  const formatText = (text: string) => {
+    const formattedText = text.split("\n").map((line, index) => {
+      if (line.startsWith("-")) {
+        return <li key={index} style={{ listStyleType: "disc", marginLeft: "20px" }}>{line.substring(2)}</li>;
+      }
+      if (line.length > 0) {
+        return <p key={index}>{line}</p>;
+      }
+      return null;
+    });
+    return formattedText;
+  };
+
   // Handle the sending of the message
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,13 +76,18 @@ const Chatbot: React.FC = () => {
       {chatVisible && (
         <div className="chatbot-container">
           <div className="chat-header">
-            <span className="chat-title">Chatbot</span>
+            {/* Add the chatbot icon */}
+            <div style={{display:'flex',alignItems:'center'}}>
+              <img src="/icon.png" alt="Chatbot Icon" className="chat-icon" style={{ width: '60px', height: '40px', marginRight: '10px', mixBlendMode: 'darken' }} />
+              <span className="chat-title">Chatbot</span>
+            </div>
             <button className="close-button" onClick={closeChatWindow}>×</button>
           </div>
+
           <div className="chat-window" ref={chatWindowRef}>
             {messages.map((msg, index) => (
               <div key={index} className={msg.isUser ? "user-message" : "bot-message"}>
-                {msg.text}
+                {formatText(msg.text)} {/* Format text before displaying */}
               </div>
             ))}
             {loading && (
