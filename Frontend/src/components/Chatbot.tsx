@@ -43,7 +43,7 @@ const Chatbot: React.FC = () => {
 
     // Send the message to the backend and get the bot's response
     try {
-      const response = await axios.post("http://localhost:3000/api/chatbot-api", { message: input });
+      const response = await axios.post("http://localhost:3000/api/chatbot_free_api", { message: input });
       const botResponse = response.data.response;
       setMessages((prevMessages) => [...prevMessages, { text: botResponse, isUser: false }]);
     } catch (error) {
